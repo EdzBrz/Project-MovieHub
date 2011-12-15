@@ -15,10 +15,10 @@ class Moviehub(object):
     """
 
     # TODO: just for dev. we need to use localhost...
-    if os.environ['SERVER_SOFTWARE'].startswith('Development'):
-        API_URL = "http://localhost:8081/api"
-    else:
-        API_URL = "https://movie-hub.appspot.com/api/"
+#    if os.environ['SERVER_SOFTWARE'].startswith('Development'):
+    API_URL = "http://localhost:8081/api"
+#    else:
+#        API_URL = "https://movie-hub.appspot.com/api/"
 
     def __init__(self, client_id, client_secret, redirect_uri=None, access_token=None):
         self.client_id = client_id

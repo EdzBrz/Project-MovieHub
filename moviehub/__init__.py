@@ -145,21 +145,8 @@ def add_sample_data():
     #from moviehub.core.models import Review
     from google.appengine.ext import db
 
-    """
-    movies = [
-        Movie(title="Tinker Tailor Soldier Spy", imdb_id="tt1340800"),
-        Movie(title="New Year's Eve", imdb_id="tt1598822"),
-        Movie(title="Young Adult", imdb_id="tt1625346"),
-        Movie(title="The Sitter", imdb_id="tt1366344"),
-        Movie(title="W.E.", imdb_id="tt1536048"),
-        Movie(title="I Melt with You", imdb_id="tt1691920"),
-        Movie(title="We Need to Talk About Kevin", imdb_id="tt1242460"),
-        Movie(title="The Matrix", imdb_id="tt0133093"),
-    ]
-    #db.put_async(movies)
-    for m in movies:
-        m.put()
-    """
+
+
     u = User(email="mikael.ahlen@gmail.com",
         full_name="Mikael Ahlen",
         photo_url="https://lh4.googleusercontent.com/-kPBDOS79uEk/AAAAAAAAAAI/AAAAAAAAAC4/N23-_zPoMMg/photo.jpg",
@@ -184,10 +171,11 @@ def add_sample_data():
     #for m in movies:
     #    m.put()
 
-@app.route("/_data/add/movies")
-def add_sample_data():
-    from moviehub.core.models import Movie
+@app.route("/_data/add/movies/")
+def add_movie_data():
+    from moviehub.core.models import Movie, Client
     from moviehubapi import Moviehub
+    from google.appengine.ext import db
 
     movies = [
         Movie(title="Akira", imdb_id="tt0094625"),
@@ -197,7 +185,7 @@ def add_sample_data():
         Movie(title="The Matrix", imdb_id="tt0133093"),
         Movie(title="City of God", imdb_id="tt0317248"),
         Movie(title="Twelve Monkeys", imdb_id="tt0114746"),
-        Movie(title="Infernal Arrairs", imdb_id="tt0338564"),
+        Movie(title="Infernal Affairs", imdb_id="tt0338564"),
         Movie(title="A Clockwork Orange", imdb_id="tt0066921"),
         Movie(title="Clerks", imdb_id="tt0109445"),
         Movie(title="The Big Lebowski", imdb_id="tt0118715"),
@@ -290,11 +278,55 @@ def add_sample_data():
         Movie(title="Crash", imdb_id="tt0375679"),
         Movie(title="Avatar", imdb_id="tt0499549"),
         Movie(title="The Smurfs", imdb_id="tt0472181"),
-
     ]
 
-    #for m in movies:
-        #m.put()
 
-    p = Moviehub(client_id="1", client_secret="1", access_token="abc");
-    p.add_recommendation_review(movies=movies[0].id()+","+movies[1].id(), body="test", rating=70)
+    for m in movies:
+        m.put()
+
+    p = Moviehub(client_id="1", client_secret="1", access_token="abc")
+    movies = p.movies()
+    p.add_reason(movie_ids="%d,%d" % (movies[0].id,movies[1].id), body="Both asian films, not much relevance both pretty dark stories.", rating=70)
+    p.add_reason(movie_ids="%d,%d" % (movies[12].id,movies[13].id), body="Both are Guy Riche movies, mostly the same cast but abit different setting and story", rating=95)
+    p.add_reason(movie_ids="%d,%d" % (movies[12].id,movies[14].id), body="Both are Guy Riche movies, mostly the same cast but abit different setting and story", rating=90)
+    p.add_reason(movie_ids="%d,%d" % (movies[11].id,movies[16].id), body="Movies about heavy drug usage, but Fear and Loathing is a comedy where A Scanner Darkly is more serious and dark", rating=60)
+    p.add_reason(movie_ids="%d,%d" % (movies[17].id,movies[44].id), body="Fantasy movies, both in very isolated setting, some very random twists", rating=50)
+    p.add_reason(movie_ids="%d,%d" % (movies[45].id,movies[46].id), body="Fantasy movies, both very magical films!", rating=90)
+    p.add_reason(movie_ids="%d,%d" % (movies[51].id,movies[52].id), body="Two very similar movies, both about the wonders of magic shows!", rating=98)
+    p.add_reason(movie_ids="%d,%d" % (movies[65].id,movies[23].id), body="Both stories about a police task force trying to find a killer on the loose.", rating=85)
+    p.add_reason(movie_ids="%d,%d" % (movies[24].id,movies[62].id), body="Both movies are about a criminal side vs a police side", rating=66)
+    p.add_reason(movie_ids="%d,%d" % (movies[25].id,movies[87].id), body="Movies about famous american boxers! Both surprisingly good", rating=85)
+    p.add_reason(movie_ids="%d,%d" % (movies[91].id,movies[61].id), body="Crazy paced action films! Both very funny!", rating=72)
+    p.add_reason(movie_ids="%d,%d" % (movies[58].id,movies[9].id), body="Films about how boring everyday life can be, but very funny for the people watching.", rating=83)
+    p.add_reason(movie_ids="%d,%d" % (movies[37].id,movies[69].id), body="Wonderful stories in fantasy settings!", rating=77)
+    p.add_reason(movie_ids="%d,%d" % (movies[82].id,movies[80].id), body="Movies about drugs, same kind of humour", rating=59)
+    p.add_reason(movie_ids="%d,%d" % (movies[81].id,movies[43].id), body="Both are feelgood movies!", rating=43)
+    p.add_reason(movie_ids="%d,%d" % (movies[90].id,movies[9].id), body="Two of the funniest movies every created", rating=69)
+    p.add_reason(movie_ids="%d,%d" % (movies[48].id,movies[49].id), body="Jim Carry in two very touching stories!", rating=80)
+    p.add_reason(movie_ids="%d,%d" % (movies[59].id,movies[60].id), body="Quentin Tarantino at his best!", rating=97)
+    p.add_reason(movie_ids="%d,%d" % (movies[73].id,movies[41].id), body="Two movies about wars, but in different setting and reality", rating=64)
+    p.add_reason(movie_ids="%d,%d" % (movies[55].id,movies[89].id), body="Two movies about where hate will lead you", rating=71)
+    p.add_reason(movie_ids="%d,%d" % (movies[98].id,movies[99].id), body="Self explanatory", rating=100)
+    p.add_reason(movie_ids="%d,%d" % (movies[77].id,movies[78].id), body="Asian peoples fighting becomes comedy!", rating=65)
+    p.add_reason(movie_ids="%d,%d" % (movies[5].id,movies[19].id), body="Both super fascinating stories based on actual people!", rating=89)
+    p.add_reason(movie_ids="%d,%d" % (movies[2].id,movies[6].id), body="Movies that actually pull of timetravel! Mighty impressive and both very good", rating=67)
+    p.add_reason(movie_ids="%d,%d" % (movies[27].id,movies[66].id), body="These two movies are about the life of musicians, good music in both", rating=91)
+    p.add_reason(movie_ids="%d,%d" % (movies[2].id,movies[20].id), body="Main characters both suffer from insanity.", rating=88)
+    p.add_reason(movie_ids="%d,%d" % (movies[2].id,movies[79].id), body="Both movies circle around a set of very mysterious events", rating=79)
+    p.add_reason(movie_ids="%d,%d" % (movies[2].id,movies[22].id), body="Imaginary friends! That's a spoiler FYI!", rating=76)
+    p.add_reason(movie_ids="%d,%d" % (movies[8].id,movies[76].id), body="Both filmes are made by Stanley Kubrick, very dark and violent movies.", rating=92)
+    p.add_reason(movie_ids="%d,%d" % (movies[8].id,movies[1].id), body="The not so very orthodox main character", rating=64)
+    p.add_reason(movie_ids="%d,%d" % (movies[8].id,movies[38].id), body="Both movies circling around outcasts of the society, where hate leads them to act the way they do.", rating=66)
+    p.add_reason(movie_ids="%d,%d" % (movies[9].id,movies[86].id), body="Movies are both made by Kevin Smith, same humour, mostly the same actors but a completely different story and setting", rating=87)
+
+
+
+
+
+
+
+
+
+
+    return "Movies and recommendations added :)!"
+
